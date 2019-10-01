@@ -11,8 +11,8 @@ import {Provider,connect} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import firebase from './firebase';
 import registerServiceWorker from './registerServiceWorker';
-import rootReducer from './reducers';
-import {setUser} from './action';
+import rootReducer from './reducers/index';
+import {setUser,clearUser} from './action/index';
 const store=createStore(rootReducer,composeWithDevTools());
 class Root extends React.Component{
       componentDidMount(){
@@ -21,12 +21,15 @@ class Root extends React.Component{
             if(user){    
                this.props.setUser(user);
                this.props.history.push("/");
+            }else{
+              this.props.history.push("/login");
+              this.props.clearUser();
             }
         })
       }
       render(){
         // this.props.isLoading?<Spinner />:
-         return (
+         return this.props.isLoading?<Spinner />:(
                <Switch>
                   <Route exact path="/" component={App} />
                   <Route path="/login" component={Login} />
@@ -41,7 +44,7 @@ class Root extends React.Component{
   const RootWithAuth=withRouter(
         connect(
              mapStateFromProps,
-             {setUser}
+             {setUser,clearUser}
         )(Root)
      );
    
