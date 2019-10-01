@@ -1,3 +1,9 @@
+.app{
+  height:100vh;
+  background: #eee;
+  padding: 1rem;
+  margin: 2rem;
+}
 .App {
   text-align: center;
 }
